@@ -1,0 +1,9 @@
+- search.php {
+    - improve filters
+}
+- search_gallery.php {
+    - missing
+}
+- item-edit.php, item-post.php {
+    - js validation
+}
