@@ -7,73 +7,62 @@
     </head>
     <body>
         <?php osc_current_web_theme_path('header.php') ; ?>
-        <div class="container">
-            <div class="contact">
-                <?php twitter_show_flash_message() ; ?>
-            </div>
-            <?php echo twitter_breadcrumb('&raquo;') ; ?>
-            <div class="contact well">
-                    <form <?php if( osc_item_attachment() ) { ?>enctype="multipart/form-data"<?php } ?> action="<?php echo osc_base_url(true) ; ?>" method="post" name="contact_form" id="contact_form" onsubmit="return doItemContact();">
+		    <?php twitter_show_flash_message() ; ?>
+        <div class="row">
+            <div class="well">
+				<h4><?php _e('Contact seller', 'twitter') ; ?></h4>
+                    <form class="form-horizontal" role="form" <?php if( osc_item_attachment() ) { ?>enctype="multipart/form-data"<?php } ?> action="<?php echo osc_base_url(true) ; ?>" method="post" name="contact_form" id="contact_form" onsubmit="return doItemContact();">
                     <?php ContactForm::primary_input_hidden() ; ?>
                     <?php ContactForm::action_hidden() ; ?>
                     <?php ContactForm::page_hidden() ; ?>
-                    <fieldset>
-                        <legend><?php _e('Contact seller', 'twitter') ; ?></legend>
-                        <div class="clearfix">
-                            <label><?php _e('To', 'twitter') ; ?></label>
-                            <div class="input">
-                                <span class="inline-help padding-top">
-                                    <?php echo osc_item_contact_name() ; ?>
-                                </span>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><?php _e('To', 'twitter') ; ?></label>
+                            <div class="col-sm-10">
+                              <?php echo osc_item_contact_name() ; ?>
                             </div>
                         </div>
-                        <div class="clearfix">
-                            <label><?php _e('Item', 'twitter') ; ?></label>
-                            <div class="input">
-                                <span class="inline-help padding-top">
-                                    <a href="<?php echo osc_item_url(); ?>"><?php echo osc_item_title() ; ?></a>
-                                </span>
+                        <div class="form-group">
+                            <label class="col-sm-9 control-label"><?php _e('Item', 'twitter') ; ?></label>
+                            <div class="col-sm-10">
+                              <a href="<?php echo osc_item_url(); ?>"><?php echo osc_item_title() ; ?></a>
                             </div>
                         </div>
-                        <div class="clearfix">
-                            <label for="contact-yourName"><?php _e('Your name', 'twitter') ; ?> *</label>
-                            <div class="input">
-                                <input class="xlarge contact-yourName" type="text" value="<?php echo osc_logged_user_name() ; ?>" name="yourName" id="contact-yourName">
+                        <div class="form-group">
+                            <label class="col-sm-9 control-label" for="contact-yourName"><?php _e('Your name', 'twitter') ; ?> *</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" value="<?php echo osc_logged_user_name() ; ?>" name="yourName" id="contact-yourName">
                             </div>
                         </div>
-                        <div class="clearfix">
-                            <label for="contact-yourEmail"><?php _e('Your e-mail', 'twitter') ; ?> *</label>
-                            <div class="input">
-                                <input class="xlarge contact-yourEmail" type="text" value="<?php echo osc_logged_user_email() ; ?>" name="yourEmail" id="contact-yourEmail">
+                        <div class="form-group">
+                            <label class="col-sm-9 control-label" for="contact-yourEmail"><?php _e('Your e-mail', 'twitter') ; ?> *</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="email" value="<?php echo osc_logged_user_email() ; ?>" name="yourEmail" id="contact-yourEmail">
                             </div>
                         </div>
-                        <div class="clearfix">
-                            <label for="contact-phoneNumber"><?php _e('Phone number', 'twitter') ; ?> *</label>
-                            <div class="input">
-                                <input class="xlarge contact-phoneNumber" type="text" value="" name="phoneNumber" id="contact-phoneNumber">
+                        <div class="form-group">
+                            <label class="col-sm-9 control-label" for="contact-phoneNumber"><?php _e('Phone number', 'twitter') ; ?> *</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="phone" value="" name="phoneNumber" id="contact-phoneNumber">
                             </div>
                         </div>
                         <?php if( osc_item_attachment() ) { ?>
-                        <div class="clearfix">
-                            <label for="contact-attachment"><?php _e('Attachments', 'twitter') ; ?></label>
-                            <div class="input">
+                        <div class="form-group">
+                            <label class="col-sm-9 control-label" for="contact-attachment"><?php _e('Attachments', 'twitter') ; ?></label>
+                            <div class="form-group">
                                 <?php ContactForm::your_attachment() ; ?>
                             </div>
                         </div>
                         <?php } ?>
-                        <div class="clearfix">
-                            <label for="contact-message"><?php _e('Message', 'twitter') ; ?> *</label>
-                            <div class="input">
-                                <textarea class="xlarge contact-message" id="contact-message" name="message" rows="6"></textarea>
+                        <div class="form-group">
+                            <label class="col-sm-9 control-label" for="contact-message"><?php _e('Message', 'twitter') ; ?> *</label>
+                            <div class="form-group">
+                                <textarea class="form-control" id="contact-message" name="message" rows="6"></textarea>
                             </div>
                         </div>
-                        <div class="clearfix">
+                        <div class="form-group">
                             <?php osc_show_recaptcha(); ?>
                         </div>
-                        <div class="actions">
-                            <button class="btn" type="submit"><?php _e('Send message', 'twitter') ; ?></button>
-                        </div>
-                    </fieldset>
+                            <button class="btn btn-success btn-sm" type="submit"><?php _e('Send message', 'twitter') ; ?></button>
                 </form>
             </div>
         </div>

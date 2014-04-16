@@ -7,40 +7,42 @@
     </head>
     <body>
         <?php osc_current_web_theme_path('header.php') ; ?>
-        <div class="container">
-            <div class="margin-top-10">
-                <?php echo twitter_breadcrumb('&raquo;') ; ?>
-            </div>
-            <div class="contact">
-                <?php twitter_show_flash_message() ; ?>
-            </div>
-            <div class="contact well">
-                 <form action="<?php echo osc_base_url(true); ?>" method="post" >
+        <?php twitter_show_flash_message() ; ?>
+        <div class="content">
+              <div class="row">
+                <div class="col-md-3">
+                    <?php twitter_user_menu() ; ?>
+                 </div>
+                <div class="col-md-9">
+                 <form class="form-horizontal" action="<?php echo osc_base_url(true); ?>" method="post" >
                     <input type="hidden" name="page" value="login" />
                     <input type="hidden" name="action" value="recover_post" />
-                    <fieldset>
-                        <legend><?php _e('Recover your password', 'twitter') ; ?></legend>
-                        <div class="clearfix">
-                            <label for="s_email"><?php _e('E-mail', 'twitter') ; ?> *</label>
-                            <div class="input">
-                                <input class="xlarge" type="text" value="" name="s_email" id="s_email">
+                      <h4><?php _e('Recover your password', 'twitter') ; ?></h4>
+                        <div class="form-group">
+                             <label class="col-sm-4 control-label" for="s_email"><?php _e('E-mail', 'twitter') ; ?> *</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" value="" name="s_email" id="s_email">
                             </div>
                         </div>
-                        <div class="clearfix">
+                        <div class="form-group">
                             <?php osc_show_recaptcha('recover_password'); ?>
                         </div>
                         <div class="actions">
-                            <button class="btn" type="submit"><?php _e('Send me a new password', 'twitter') ; ?></button>
+                            <button class="btn btn-success" type="submit"><?php _e('Send me a new password', 'twitter') ; ?></button>
                         </div>
-                        <div class="clearfix">
-                            <div class="input">
-                                <a href="<?php echo osc_user_login_url() ; ?>"><?php _e("Login", 'twitter') ; ?></a> &middot; <a href="<?php echo osc_register_account_url() ; ?>"><?php _e("Register for a free account", 'twitter') ; ?></a>
+                        <div class="form-group">
+                            <div class="col-sm-7">
+                                <a href="<?php echo osc_register_account_url() ; ?>"><?php _e("Register for a free account", 'twitter') ; ?></a> &middot; <a href="<?php echo osc_recover_user_password_url() ; ?>"><?php _e("Forgot password?", 'twitter') ; ?></a>
                             </div>
                         </div>
-                    </fieldset>
                  </form>
             </div>
         </div>
-        <?php osc_current_web_theme_path('footer.php') ; ?>
+      </div>
+        <nav class="navbar navbar-static-bottom">
+            <div class="container">
+             <?php osc_current_web_theme_path('footer.php') ; ?>
+            </div>
+          </nav>
     </body>
 </html>

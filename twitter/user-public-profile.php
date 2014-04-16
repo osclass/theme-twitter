@@ -47,7 +47,7 @@
 
     osc_enqueue_script('jquery-validate');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="<?php echo str_replace('_', '-', osc_current_user_locale()); ?>">
     <head>
         <?php osc_current_web_theme_path('head.php'); ?>
@@ -56,17 +56,16 @@
     </head>
     <body>
         <?php osc_current_web_theme_path('header.php') ; ?>
-        <div class="container margin-top-10">
-            <?php twitter_show_flash_message() ; ?>
-        </div>
-        <div class="container search user-public-profile">
+		   <?php twitter_show_flash_message() ; ?>
+        <div class="content">
+         
             <div class="row">
-                <div id="item_head" class="breadcrumb">
-                    <h1><?php echo sprintf(__('%s\'s profile', 'modern'), osc_user_name()); ?></h1>
+                <div id="item_head" class="col-md-8">
+                    <h1><?php echo sprintf(__('%s\'s profile', 'twitter'), osc_user_name()); ?></h1>
                 </div>
             </div>
             <div class="row">
-                <div class="span10 columns">
+                <div class="col-md-8">
                     <div id="description">
                         <h2><?php _e('Profile', 'twitter'); ?></h2>
                         <ul id="user_data">
@@ -81,18 +80,18 @@
 
                     <h2><?php _e('Latest listings', 'twitter'); ?></h2>
                     <?php while ( osc_has_items() ) { ?>
-                    <div class="line span10 columns">
-                        <div class="photo">
+                    <div class="col-md-8">
+                        <div class="media">
                             <?php if( osc_count_item_resources() ) { ?>
-                            <a href="<?php echo osc_item_url() ; ?>">
-                                <img src="<?php echo osc_resource_thumbnail_url() ; ?>" width="100px" height="75px" title="<?php echo osc_item_title(); ?>" alt="<?php echo osc_item_title(); ?>" />
+                            <a  class="pull-left" href="<?php echo osc_item_url() ; ?>">
+                                <img class="media-object img-responsive" src="<?php echo osc_resource_thumbnail_url() ; ?>" width="100px" height="75px" title="<?php echo osc_item_title(); ?>" alt="<?php echo osc_item_title(); ?>" />
                             </a>
                             <?php } else { ?>
-                            <img src="<?php echo osc_current_web_theme_url('images/no_photo.gif') ; ?>" alt="" title=""/>
+                            <img class="media-object img-responsive" src="<?php echo osc_current_web_theme_url('images/no_photo.gif') ; ?>" width="100px" height="75px" alt="No Photo" title="No Photo"/>
                             <?php } ?>
                         </div>
-                        <div class="description">
-                            <h3><?php if( osc_price_enabled_at_items() ) { ?> <small><strong><?php echo osc_item_formated_price() ; ?></strong></small> &middot; <?php } ?><a href="<?php echo osc_item_url() ; ?>"><?php echo osc_item_title(); ?></a> <span class="label"><a href="<?php echo osc_item_category_url(osc_item_category_id()) ; ?>"><?php echo osc_item_category() ; ?></a></span> <?php if( osc_item_is_premium() ) { ?> <span class="label success"><?php _e('Premium', 'twitter');  ?></span><?php } ?></h3>
+                        <div class="media-heading">
+                            <h3><?php if( osc_price_enabled_at_items() ) { ?> <small><strong><?php echo osc_item_formated_price() ; ?></strong></small> &middot; <?php } ?><a href="<?php echo osc_item_url() ; ?>"><?php echo osc_item_title(); ?></a> <span class="label label-primary"><a href="<?php echo osc_item_category_url(osc_item_category_id()) ; ?>"><?php echo osc_item_category() ; ?></a></span> <?php if( osc_item_is_premium() ) { ?> <span class="label label-success"><?php _e('Premium', 'twitter');  ?></span><?php } ?></h3><div class="media-body">
                             <p><?php printf(__('<strong>Publish date</strong>: %s', 'twitter'), osc_format_date( osc_item_pub_date() ) ) ; ?></p>
                             <?php
                                 $location = array() ;
@@ -109,61 +108,97 @@
                             ?>
                             <p><?php echo implode(' &middot; ', $location) ; ?></p>
                             <?php } ?>
-                            <p><?php echo osc_highlight( strip_tags( osc_item_description() ) ) ; ?></p>
+                            <p><?php echo osc_highlight( osc_item_description() ) ; ?></p>
                         </div>
                     </div>
                     <?php } ?>
                     <?php if($total_items < $items_per_page) { ?>
-                    <div class="span10 columns">
-                    <p class="see_more_link"><a href="<?php echo osc_base_url(true).'?page=search&sUser[]='.osc_user_id(); ?>"><strong><?php _e('See all offers', 'twitter'); ?> »</strong></a></p>
+                    <div class="col-md-9">
+                    <button class="btn btn-default"><a href="<?php echo osc_base_url(true).'?page=search&sUser[]='.osc_user_id(); ?>"><strong><?php _e('See all offers', 'twitter'); ?> »</strong></a></button>
                     </div>
                     <?php } ?>
                 </div>
 
                 <!-- user contact -->
-                <div id="item-contact" class="item-contact span5">
-                    <form class="form-stacked" action="<?php echo osc_base_url(true) ; ?>" method="post" name="contact_form" id="contact_form" onsubmit="return doItemContact() ;">
-                        <input type="hidden" name="action" value="contact_post" />
-                        <input type="hidden" name="page" value="user" />
-                        <input type="hidden" name="id" value="<?php echo osc_user_id() ; ?>" />
-                        <div class="">
-                            <h3><?php _e('Contact publisher', 'twitter') ; ?></h3>
+                <?php if ( !$is_expired && $is_user && $is_can_contact ) { ?>
+          <button class="btn btn-default" data-toggle="modal" data-target="#contact-publisher"><span class="glyphicon glyphicon-envelope">&nbsp;</span>
+            <?php _e('contact ', 'twitter'); ?>
+            </button>
+                <div class="modal fade" id="contact-publisher" tabindex="-1" role="dialog" aria-labelledby="contactPublisher" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title"><?php _e('Contact us', 'twitter') ; ?></h4>
+                      </div>
+                      <div class="modal-body">
+                     <form <?php if( osc_item_attachment() ) { ?>enctype="multipart/form-data"<?php } ?> class="form-horizontal" action="<?php echo osc_base_url(true) ; ?>" method="post" name="contact_form" id="contact_form" onsubmit="return doItemContact() ;">
+                      <input type="hidden" name="action" value="contact_post" />
+                      <input type="hidden" name="page" value="item" />
+                      <input type="hidden" name="id" value="<?php echo osc_item_id() ; ?>" />
+                      <h3>
+                                <?php _e('Contact publisher', 'twitter') ; ?>
+                              </h3>
+                      <?php osc_prepare_user_info() ; ?>
+                      <div class="form-group">
+                                <label class="col-sm-2 control-label" for="contact-yourName">
+                          <?php _e('Your name *', 'twitter') ; ?>
+                        </label>
+                                <div class="col-sm-10">
+                          <input class="form-control" id="contact-yourName" name="yourName" type="text" value="<?php echo osc_logged_user_name(); ?>">
                         </div>
-                        <div class="">
-                            <?php osc_prepare_user_info() ; ?>
-                            <div class="clearfix">
-                                <label for="contact-yourName"><?php _e('Your name', 'twitter') ; ?></label>
-                                <div class="input">
-                                    <input class="xlarge contact-yourName" id="contact-yourName" name="yourName" type="text" value="<?php echo osc_logged_user_name(); ?>" />
-                                </div>
-                            </div>
-                            <div class="clearfix">
-                                <label for="contact-yourEmail"><?php _e('Your e-mail', 'twitter') ; ?></label>
-                                <div class="input">
-                                    <input class="xlarge contact-yourEmail" id="contact-yourEmail" name="yourEmail" type="text" value="<?php echo osc_logged_user_email();?>" />
-                                </div>
-                            </div>
-                            <div class="clearfix">
-                                <label for="contact-phoneNumber"><?php _e('Phone number', 'twitter') ; ?></label>
-                                <div class="input">
-                                    <input class="xlarge contact-phoneNumber" id="contact-phoneNumber" name="phoneNumber" type="text" value="" />
-                                </div>
-                            </div>
-                            <div class="clearfix">
-                                <label for="contact-message"><?php _e('Message', 'twitter') ; ?></label>
-                                <div class="input">
-                                    <textarea class="xlarge contact-message" id="contact-message" name="message" rows="6"></textarea>
-                                </div>
-                            </div>
-                            <div class="clearfix">
-                                <?php osc_show_recaptcha(); ?>
-                            </div>
+                              </div>
+                      <div class="form-group">
+                                <label class="col-sm-2 control-label" for="contact-yourEmail">
+                          <?php _e('Your e-mail *', 'twitter') ; ?>
+                        </label>
+                                <div class="col-sm-10">
+                          <input class="form-control" id="contact-yourEmail" name="yourEmail" type="text" value="<?php echo osc_logged_user_email();?>">
                         </div>
-                        <div class="pull-right">
-                            <button class="btn primary" type="submit"><?php _e('Send', 'twitter') ; ?></button>
+                              </div>
+                      <div class="form-group">
+                                <label class="col-sm-2 control-label" for="contact-phoneNumber">
+                          <?php _e('Phone number', 'twitter') ; ?>
+                        </label>
+                                <div class="col-sm-10">
+                          <input class="form-control" id="contact-phoneNumber" name="phoneNumber" type="text" value="">
                         </div>
+                              </div>
+                      <?php if( osc_item_attachment() ) { ?>
+                      <div class="form-group">
+                                <label class="col-sm-2 control-label" for="contact-attachment">
+                          <?php _e('Attachments', 'twitter') ; ?>
+                        </label>
+                                <div class="col-sm-10">
+                          <?php ContactForm::your_attachment() ; ?>
+                        </div>
+                              </div>
+                      <?php } ?>
+                      <div class="form-group">
+                                <label class="col-sm-2 control-label" for="contact-message">
+                          <?php _e('Message', 'twitter') ; ?>
+                        </label>
+                                <div class="col-sm-10">
+                          <textarea class="form-control" id="contact-message" name="message" rows="6"></textarea>
+                        </div>
+                              </div>
+                      <div class="form-group">
+                                <div class="recaptcha_container">
+                          <?php osc_show_recaptcha(); ?>
+                        </div>
+                              </div>
+                      <button class="btn btn-success btn-sm" type="submit">
+                              <?php _e('Send', 'twitter') ; ?>
+                              </button>
                     </form>
-                </div>
+                    </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+       <?php } ?>
                 <!-- user contact end -->
 
             </div>
@@ -173,6 +208,10 @@
             var text_valid_email    = '' ;
         </script>
         <script type="text/javascript" src="<?php echo osc_current_web_theme_js_url('item_contact.js') ; ?>"></script>
-        <?php osc_current_web_theme_path('footer.php') ; ?>
+           <nav class="navbar navbar-static-bottom">
+            <div class="container">
+             <?php osc_current_web_theme_path('footer.php') ; ?>
+            </div>
+          </nav>
     </body>
 </html>

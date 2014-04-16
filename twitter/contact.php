@@ -7,55 +7,52 @@
     </head>
     <body>
         <?php osc_current_web_theme_path('header.php') ; ?>
+		  <?php twitter_show_flash_message() ; ?>
         <div class="container">
-            <div class="contact">
-                <?php twitter_show_flash_message() ; ?>
-            </div>
-            <?php echo twitter_breadcrumb('&raquo;') ; ?>
-            <div class="contact well">
-                <form action="<?php echo osc_base_url(true) ; ?>" method="post" name="contact" onsubmit="return doContact();">
+           <div class="row">
+            <div class="well">
+              <h4><?php _e('Contact us', 'twitter') ; ?></h4>
+                <form class="form-horizontal" role="form" action="<?php echo osc_base_url(true) ; ?>" method="post" name="contact" onsubmit="return doContact();">
                     <input type="hidden" name="page" value="contact" />
                     <input type="hidden" name="action" value="contact_post" />
-                    <fieldset>
-                        <legend><?php _e('Contact us', 'twitter') ; ?></legend>
-                        <div class="clearfix">
-                            <label for="subject"><?php _e('Subject', 'twitter') ; ?> *</label>
-                            <div class="input">
-                                <input class="xlarge" type="text" value="" name="subject" id="subject">
+                    <div class="form-group">                        
+                            <label class="col-sm-2 control-label" for="subject"><?php _e('Subject', 'twitter') ; ?> *</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" placeholder="Subject" name="subject" id="subject">
                             </div>
                         </div>
-                        <div class="clearfix">
-                            <label for="message"><?php _e('Message', 'twitter') ; ?> *</label>
-                            <div class="input">
-                                <textarea class="xlarge" id="message" name="message" rows="6"></textarea>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="message"><?php _e('Message', 'twitter') ; ?> *</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="message" name="message" rows="6"></textarea>
                             </div>
                         </div>
-                        <div class="clearfix">
-                            <label for="yourName"><?php _e('Your name', 'twitter') ; ?> *</label>
-                            <div class="input">
-                                <input class="xlarge" type="text" value="" name="yourName" id="yourName">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="yourName"><?php _e('Your name', 'twitter') ; ?> *</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" placeholder="Full Name" name="yourName" id="yourName">
                             </div>
                         </div>
-                        <div class="clearfix">
-                            <label for="yourEmail"><?php _e('Your e-mail address', 'twitter') ; ?> *</label>
-                            <div class="input">
-                                <input class="xlarge" type="text" value="" name="yourEmail" id="yourEmail">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="yourEmail"><?php _e('Your E-mail', 'twitter') ; ?> *</label>
+                           <div class="col-sm-10">
+                                <input class="form-control" type="email" placeholder="E-mail" name="yourEmail" id="yourEmail">
                             </div>
                         </div>
-                        <div class="clearfix">
+                        <div class="form-group">
                             <?php osc_run_hook('user_register_form') ; ?>
                         </div>
-                        <div class="clearfix">
-                            <div class="input">
+                        <div class="form-group">
+                            <div class="form-control">
                                 <?php osc_show_recaptcha(); ?>
                             </div>
                         </div>
                         <div class="actions">                            
-                            <button class="btn" type="submit"><?php _e('Send', 'twitter') ; ?></button>
+                            <button class="btn btn-success btn-sm" type="submit"><?php _e('Send', 'twitter') ; ?></button>
                         </div>
-                    </fieldset>
                 </form>
             </div>
+          </div>
         </div>
         <script type="text/javascript">
             var text_error_required = '<?php _e('This field is required', 'twitter') ; ?>' ;

@@ -7,14 +7,12 @@
     </head>
     <body>
         <?php osc_current_web_theme_path('header.php') ; ?>
-        <div class="container margin-top-10">
             <?php twitter_show_flash_message() ; ?>
             <div class="row">
-                <div class="span16 columns">
+                <div class="col-md-8">
                     <h1><?php _e('Page not found', 'twitter') ; ?></h1>
                 </div>
             </div>
-        </div>
         <?php osc_current_web_theme_path('footer.php') ; ?>
     </body>
 </html>

@@ -7,42 +7,38 @@
     </head>
     <body>
         <?php osc_current_web_theme_path('header.php') ; ?>
-        <div class="container user">
-            <div class="row">
-                <div class="span16 columns">
+        <?php twitter_show_flash_message() ; ?>
+        <div class="content">
+              <div class="row">
+                <div class="col-md-3">
                     <?php twitter_user_menu() ; ?>
-                    <?php twitter_show_flash_message() ; ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="span16 columns">
-                    <form action="<?php echo osc_base_url(true) ; ?>" method="post" onsubmit="return doUserChangePassword() ;">
+                 </div>
+                <div class="col-md-9">
+                    <form class="form-horizontal" action="<?php echo osc_base_url(true) ; ?>" method="post" onsubmit="return doUserChangePassword() ;">
                         <input type="hidden" name="page" value="user" />
                         <input type="hidden" name="action" value="change_password_post" />
-                        <fieldset>
-                            <legend><?php _e('Change your password', 'twitter') ; ?></legend>
-                            <div class="clearfix">
-                                <label for="password"><?php _e('Current password', 'twitter') ; ?></label>
-                                <div class="input">
-                                    <input class="xlarge" type="password" value="" name="password" id="password">
+                            <h4><?php _e('Change your password', 'twitter') ; ?></h4>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="password"><?php _e('Current password', 'twitter') ; ?></label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" type="password" value="" name="password" id="password">
                                 </div>
                             </div>
-                            <div class="clearfix">
-                                <label for="new_password"><?php _e('New password', 'twitter') ; ?></label>
-                                <div class="input">
-                                    <input class="xlarge" type="password" value="" name="new_password" id="new_password">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="new_password"><?php _e('New password', 'twitter') ; ?></label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" type="password" value="" name="new_password" id="new_password">
                                 </div>
                             </div>
-                            <div class="clearfix">
-                                <label for="new_password2"><?php _e('Repeat new password', 'twitter') ; ?></label>
-                                <div class="input">
-                                    <input class="xlarge" type="password" value="" name="new_password2" id="new_password2">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="new_password2"><?php _e('Repeat new password', 'twitter') ; ?></label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" type="password" value="" name="new_password2" id="new_password2">
                                 </div>
                             </div>
                             <div class="actions">
-                                <button class="btn" type="submit"><?php _e('Update', 'twitter') ; ?></button>
+                                <button class="btn btn-success" type="submit"><?php _e('Update', 'twitter') ; ?></button>
                             </div>
-                        </fieldset>
                     </form>
                 </div>
             </div>
@@ -51,6 +47,10 @@
             var text_error_required = '<?php _e('This field is required', 'twitter') ; ?>' ;
         </script>
         <!--<script type="text/javascript" src="<?php echo osc_current_web_theme_js_url('change_password.js') ; ?>"></script>-->
-        <?php osc_current_web_theme_path('footer.php') ; ?>
+      <nav class="navbar navbar-static-bottom">
+        <div class="container">
+         <?php osc_current_web_theme_path('footer.php') ; ?>
+        </div>
+      </nav>
     </body>
 </html>

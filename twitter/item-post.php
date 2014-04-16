@@ -29,62 +29,57 @@
         <script type="text/javascript" src="<?php echo osc_current_web_theme_js_url('item_form.js') ; ?>"></script>
     </head>
     <body>
+	     <?php twitter_show_flash_message() ; ?> 
         <?php osc_current_web_theme_path('header.php') ; ?>
-        <div class="container margin-top-10">
-            <?php twitter_show_flash_message() ; ?>
-        </div>
-        <div class="container item-post">
-            <?php echo twitter_breadcrumb('&raquo;') ; ?>
+        <div class="container">
             <div class="row">
-                <div class="span16 columns">
-                    <form class="well" name="item" action="<?php echo osc_base_url(true) ; ?>" method="post" enctype="multipart/form-data">
+               <div class="col-md-12">
+                 <div class="well">
+                    <form class="form-horizontal" name="item" action="<?php echo osc_base_url(true) ; ?>" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="action" value="item_add_post" />
                         <input type="hidden" name="page" value="item" />
-                        <fieldset>
                             <h1><?php _e('Publish an item', 'twitter') ; ?></h1>
                             <!-- category input -->
-                            <div class="clearfix">
-                                <label><?php _e('Category', 'twitter') ; ?></label>
-                                <div class="input">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label"><?php _e('Category', 'twitter') ; ?></label>
+                                <div class="col-sm-10">
                                     <?php item_category_select( __('Select a category...', 'twitter') ) ; ?>
                                 </div>
                             </div>
                             <!-- category input end -->
                             <!-- title and description -->
-                            <div class="clearfix">
                                 <?php if( count($aLocales) > 1 ) { ?>
                                     <?php item_title_description_multilanguage_box(__('Title', 'twitter'), __('Description', 'twitter'), $aLocales) ; ?>
                                 <?php } else { ?>
                                     <?php item_title_description_box(__('Title', 'twitter'), __('Description', 'twitter'), $aLocales) ; ?>
                                 <?php } ?>
-                            </div>
                             <!-- title and description end -->
                             <?php if( osc_price_enabled_at_items() ) { ?>
                                 <!-- price -->
-                                <div class="clearfix">
-                                    <label for="price"><?php _e('Price', 'twitter') ; ?></label>
-                                    <div class="input">
+                                 <div class="input-group">
+                                    <label class="col-sm-1 control-label" for="price"><?php _e('Price', 'twitter') ; ?></label>
+                                    <div class="col-sm-3">
                                         <?php item_price_input( ) ; ?>
+                                        </div>
+                                        <div class="col-sm-3">
                                         <?php item_currency_select( ) ; ?>
-                                        <span class="help-block">
-                                            <?php _e("<strong>Note:</strong> If you are giving away your item, enter a price of 0. Leave it blank if you don't want to publish a price.", 'twitter') ; ?>
-                                        </span>
-                                    </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                        <p class="bg-warning"><span class="glyphicon glyphicon-info-sign"> </span>
+                                            <?php _e("<strong>Note:</strong> If you are giving away your item, enter a price of 0. If you don't want to publish the price, leave the field empty.", 'twitter') ; ?>
+                                        </p>
+                                        </div>
                                 </div>
                                 <!-- price end -->
                             <?php } ?>
                             <?php if( osc_images_enabled_at_items() ) { ?>
                                 <!-- photo -->
                                 <h3><?php _e('Photos', 'twitter') ; ?></h3>
-                                <div class="clearfix photos">
-                                    <div class="input input-file">
+                                <div class="input-group">
                                         <input type="file" name="photos[]" />
-                                    </div>
-                                    <div class="more-photos input">
-
-                                    </div>
-                                    <div class="input">
-                                        <a href="javascript://" onclick="return add_photo_field();"><?php _e('Add new photo', 'modern'); ?></a>
+                                    <div class="more-photos input"></div>
+                                    <div class="col-sm-12">
+                                        <a href="javascript://" onclick="return add_photo_field();"><?php _e('Add new photo', 'twitter'); ?></a>
                                     </div>
                                 </div>
                                 <!-- photo end -->
@@ -94,15 +89,15 @@
                             <?php item_country_box(__("Country", "twitter"), __("Select a country...", "twitter")) ; ?>
                             <?php item_region_box(__("Region", "twitter"), __("Select a region...", "twitter")) ; ?>
                             <?php item_city_box(__("City", "twitter"), __("Select a city...", "twitter")) ; ?>
-                            <div class="clearfix">
-                                <label for="cityArea"><?php _e('Neighborhood', 'twitter') ; ?></label>
-                                <div class="input">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="cityArea"><?php _e('Neighborhood', 'twitter') ; ?></label>
+                                <div class="col-sm-10">
                                     <?php item_city_area( ) ; ?>
                                 </div>
                             </div>
-                            <div class="clearfix">
-                                <label for="address"><?php _e('Address', 'twitter') ; ?></label>
-                                <div class="input">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="address"><?php _e('Address', 'twitter') ; ?></label>
+                                <div class="col-sm-10">
                                     <?php item_address( ) ; ?>
                                 </div>
                             </div>
@@ -110,43 +105,37 @@
                             <?php if( !osc_is_web_user_logged_in() ) { ?>
                             <!-- seller -->
                             <h3><?php _e("Seller's information", "twitter"); ?></h3>
-                            <div class="clearfix">
-                                <label><?php _e('Name', 'twitter') ; ?></label>
-                                <div class="input">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><?php _e('Name', 'twitter') ; ?></label>
+                                <div class="input-group">
                                     <?php echo item_contact_name_input() ; ?>
                                 </div>
                             </div>
-                            <div class="clearfix">
-                                <label><?php _e('E-mail', 'twitter') ; ?></label>
-                                <div class="input">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><?php _e('E-mail', 'twitter') ; ?></label>
+                                <div class="input-group">
                                     <?php echo item_contact_mail_input() ; ?>
                                 </div>
                             </div>
-                            <div class="clearfix">
-                                <div class="input">
-                                    <ul class="inputs-list">
-                                        <li>
-                                            <label for="showEmail">
-                                                <?php echo item_contact_show_email_checkbox() ; ?>
-                                                <span><?php _e('Show e-mail on the item page', 'twitter'); ?></span>
-                                            </label>
-                                        </li>
-                                    </ul>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="showEmail"><?php _e('Show e-mail on the item page', 'twitter'); ?></label>
+                                <div class="input-group">
+												     <?php echo item_contact_show_email_checkbox() ; ?>
                                 </div>
                             </div>
                             <!-- seller end -->
                             <?php } ?>
-                            <div class="clearfix">
+                            
                                 <div id="plugin-hook"></div>
-                            </div>
-                            <div class="clearfix">
+                            
+                            <div class="form-group">
                                 <?php osc_show_recaptcha(); ?>
                             </div>
                             <div class="actions">
-                                <button class="btn" type="submit"><?php _e('Publish your ad', 'twitter') ; ?></button>
+                                <button class="btn btn-success" type="submit"><?php _e('Publish your ad', 'twitter') ; ?></button>
                             </div>
-                        </fieldset>
                     </form>
+                   </div> 
                 </div>
             </div>
         </div>
