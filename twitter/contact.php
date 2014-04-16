@@ -42,11 +42,9 @@
                         <div class="form-group">
                             <?php osc_run_hook('user_register_form') ; ?>
                         </div>
-                        <div class="form-group">
-                            <div class="form-control">
+                            <div class="form-group">
                                 <?php osc_show_recaptcha(); ?>
                             </div>
-                        </div>
                         <div class="actions">                            
                             <button class="btn btn-success btn-sm" type="submit"><?php _e('Send', 'twitter') ; ?></button>
                         </div>

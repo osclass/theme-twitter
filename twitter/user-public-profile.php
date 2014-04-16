@@ -203,11 +203,11 @@
 
             </div>
         </div>
+		   <script type="text/javascript" src="<?php echo osc_current_web_theme_js_url('item_contact.js') ; ?>"></script>
         <script type="text/javascript">
             var text_error_required = '' ;
             var text_valid_email    = '' ;
         </script>
-        <script type="text/javascript" src="<?php echo osc_current_web_theme_js_url('item_contact.js') ; ?>"></script>
            <nav class="navbar navbar-static-bottom">
             <div class="container">
              <?php osc_current_web_theme_path('footer.php') ; ?>
