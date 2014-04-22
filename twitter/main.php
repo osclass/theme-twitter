@@ -53,7 +53,7 @@
                             <img class="media-object img-responsive pull-left" src="<?php echo osc_current_web_theme_url('images/no_photo.gif') ; ?>" width="100px" height="75px" alt="No Photo" title="No Photo"/>
                             <?php } ?>
                         
-                            <h3 class="media-heading"><?php if( osc_price_enabled_at_items() ) { ?> <small><strong><?php echo osc_item_formated_price() ; ?></strong></small> &middot; <?php } ?><a href="<?php echo osc_item_url() ; ?>"><?php echo osc_item_title(); ?></a> <span class="label label-primary"><a href="<?php echo osc_item_category_url(osc_item_category_id()) ; ?>"><?php echo osc_item_category() ; ?></a></span> <?php if( osc_item_is_premium() ) { ?> <span class="label label-success"><?php _e('Premium', 'twitter');  ?></span><?php } ?></h3><div class="media-body">
+                            <h3 class="media-heading"><?php if( osc_price_enabled_at_items() ) { ?> <small><strong><?php echo osc_item_formated_price() ; ?></strong></small> &middot; <?php } ?><a href="<?php echo osc_item_url() ; ?>"><?php echo osc_item_title(); ?></a></h3><h4><span class="label label-primary"><a href="<?php echo osc_item_category_url(osc_item_category_id()) ; ?>"><?php echo osc_item_category() ; ?></a></span> <?php if( osc_item_is_premium() ) { ?> <span class="label label-success"><?php _e('Premium', 'twitter');  ?></span><?php } ?></h4><div class="media-body">
                             <p><?php printf(__('<strong>Publish date</strong>: %s', 'twitter'), osc_format_date( osc_item_pub_date() ) ) ; ?></p>
                             <?php
                                 $location = array() ;
