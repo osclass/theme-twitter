@@ -10,6 +10,7 @@
   -moz-user-select: none;
   user-select: none;
   margin-bottom:3px;
+  width:auto !important
 }
 .chosen-container .chosen-drop {
   position: absolute;
