@@ -58,8 +58,8 @@
                             </span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                        </button>
 								<?php if( osc_users_enabled() || ( !osc_users_enabled() && !osc_reg_user_post() )) { ?>
-                        <button type="button" class="btn btn-default navbar-btn"><a href="<?php echo osc_item_post_url_in_category() ; ?>"><span class="glyphicon glyphicon-pencil"></span> <?php _e("Publish your ad for free", 'twitter'); ?></a>
-                        </button> 
+                       <a href="<?php echo osc_item_post_url_in_category() ; ?>" class="btn btn-primary navbar-btn pull-left" type="button" role="button"><span class="glyphicon glyphicon-pencil"></span> <?php _e("Publish your ad for free", 'twitter'); ?>
+                        </a> 
 								<?php } ?>
                        
                         </div>
