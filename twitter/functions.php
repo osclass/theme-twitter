@@ -4,7 +4,7 @@
         View::newInstance()->_exportVariableToView('categories', Category::newInstance()->toTree() ) ;
 
         if( osc_count_categories() > 0 ) {
-            echo '<select name="sCategory" data-placeholder="' . __('Select a category...', 'twitter') . '" style="width: auto;" class="chosen-select">' ;
+            echo '<select name="sCategory" data-placeholder="' . __('Select a category...', 'twitter') . '" style="width: auto;" class="form-control chosen-select">' ;
             echo '<option></option>' ;
             while( osc_has_categories() ) {
                 echo '<option value="' . osc_category_id() . '">' . osc_category_name() . '</option>' ;
@@ -24,7 +24,7 @@
         View::newInstance()->_exportVariableToView('categories', Category::newInstance()->toTree() ) ;
 
         if( osc_count_categories() > 0 ) {
-            echo '<select name="sCategory" data-placeholder="' . __('Select a category...', 'twitter') . '" style="width: auto;" class="chosen-select">' ;
+            echo '<select name="sCategory" data-placeholder="' . __('Select a category...', 'twitter') . '" style="width: auto" class="form-control chosen-select">' ;
             echo '<option></option>' ;
             while( osc_has_categories() ) {
                 echo '<optgroup label="' . osc_category_name() . '">' ;
@@ -45,7 +45,7 @@
         View::newInstance()->_exportVariableToView('list_regions', Search::newInstance()->listRegions('%%%%', '>=', 'region_name ASC') ) ;
 
         if( osc_count_list_regions() > 0 ) {
-            echo '<select name="sRegion" data-placeholder="' . __('Select a region...', 'twitter') . '" style="width: 200px;" class="chosen-select">' ;
+            echo '<select name="sRegion" data-placeholder="' . __('Select a region...', 'twitter') .'" style="width:auto" class="form-control chosen-select">' ;
             echo '<option></option>' ;
             while( osc_has_list_regions() ) {
                 echo '<option value="' . osc_list_region_name() . '">' . osc_list_region_name() . '</option>' ;
@@ -82,35 +82,63 @@
         }
     }
 
-    if( !function_exists('twitter_show_flash_message') ) {
-        function twitter_show_flash_message() {
-            $message = Session::newInstance()->_getMessage('pubMessages') ;
-
-            if (isset($message['msg']) && $message['msg'] != '') {
-                if( $message['type'] == 'ok' ) $message['type'] = 'success' ;
-                echo '<div class="alert-message ' . $message['type'] . '">' ;
-                echo '<a class="close" href="#">×</a>';
-                echo '<p>' . $message['msg'] . '</p>';
-                echo '</div>' ;
-
-                Session::newInstance()->_dropMessage('pubMessages') ;
-            }
-        }
-    }
+//    if( !function_exists('twitter_show_flash_message') ) {
+//        function twitter_show_flash_message() {
+//            $message = Session::newInstance()->_getMessage('pubMessages') ;
+//
+//            if (isset($message['msg']) && $message['msg'] != '') {
+//                if( $message['type'] == 'ok' ) $message['type'] = 'success' ;
+//                echo '<div class="alert-message ' . $message['type'] . '">' ;
+//                echo '<button type="button" class="close" aria-hidden="true">&times;</button>';
+//                echo '<p class="bg-warning">' . $message['msg'] . '</p>';
+//                echo '</div>' ;
+//
+//                Session::newInstance()->_dropMessage('pubMessages') ;
+//            }
+//        }
+//    }
+     
+	      if( !function_exists('twitter_show_flash_message') ) {
+				function twitter_show_flash_message($section = 'pubMessages', $class = "alert-message", $id = "alert-message") {
+				  $messages = Session::newInstance()->_getMessage($section);
+				  if (is_array($messages)) {
+		
+						foreach ($messages as $message) {
+		
+							 echo '<div id="flash_js"></div>';
+				  
+							 if (isset($message['msg']) && $message['msg'] != '') {
+								  echo '<div id="' . $id . '" class="' . strtolower($class) . ' ' .$message['type'] . '"><button type="button" class="close" aria-hidden="true">&times;</button>';
+								  echo osc_apply_filter('flash_message_text', $message['msg']);
+								  echo '</div>';
+							 } else if($message!='') {
+								  echo '<div id="' . $id . '" class="' . $class . '">';
+								  echo osc_apply_filter('flash_message_text', $message);
+								  echo '</div>';
+							 } else {
+								  echo '<div id="' . $id . '" class="' . $class . '" style="display:none;">';
+								  echo osc_apply_filter('flash_message_text', '');
+								  echo '</div>';
+							 }
+						}
+				  }  
+        Session::newInstance()->_dropMessage($section);
+			}
+		}
 
     if ( !function_exists('twitter_user_menu') ) {
         function twitter_user_menu( ) {
             $options = array();
-            $options[] = array('name' => __('Dashboard', 'twitter'), 'url' => osc_user_dashboard_url(), 'class' => osc_is_user_dashboard() ? 'active opt_dashboard' : 'opt_dashboard' ) ;
-            $options[] = array('name' => __('Manage your items', 'twitter'), 'url' => osc_user_list_items_url(), 'class' => osc_is_user_manage_items() ? 'active opt_items' : 'opt_items') ;
-            $options[] = array('name' => __('Manage your alerts', 'twitter'), 'url' => osc_user_alerts_url(), 'class' => osc_is_user_manage_alerts() ? 'active opt_alerts' : 'opt_alerts') ;
-            $options[] = array('name' => __('My account', 'twitter'), 'url' => osc_user_profile_url(), 'class' => osc_is_user_profile() ? 'active opt_dashboard' : 'opt_account' ) ;
+            $options[] = array('name' => __('Dashboard', 'twitter'), 'url' => osc_user_dashboard_url(), 'class' => osc_is_user_dashboard() ? 'opt_dashboard' : 'opt_dashboard' ) ;
+            $options[] = array('name' => __('Manage your items', 'twitter'), 'url' => osc_user_list_items_url(), 'class' => osc_is_user_manage_items() ? 'opt_items' : 'opt_items') ;
+            $options[] = array('name' => __('Manage your alerts', 'twitter'), 'url' => osc_user_alerts_url(), 'class' => osc_is_user_manage_alerts() ? 'opt_alerts' : 'opt_alerts') ;
+            $options[] = array('name' => __('My account', 'twitter'), 'url' => osc_user_profile_url(), 'class' => osc_is_user_profile() ? 'opt_dashboard' : 'opt_account' ) ;
 
-            echo '<ul class="tabs">' ;
+            echo '<ul class="list-group">' ;
 
             $var_l = count($options) ;
             for($var_o = 0 ; $var_o < $var_l ; $var_o++) {
-                echo '<li class="' . $options[$var_o]['class'] . '" ><a href="' . $options[$var_o]['url'] . '" >' . $options[$var_o]['name'] . '</a></li>' ;
+                echo '<li class="list-group-item ' . $options[$var_o]['class'] . '" ><a href="' . $options[$var_o]['url'] . '" >' . $options[$var_o]['name'] . '</a></li>' ;
             }
 
             osc_run_hook('user_menu') ;
@@ -310,12 +338,12 @@
                         case 'send_friend': $text = '' ; break ;
                         case 'contact':     $text = '' ; break ;
                         default:
-                            $text = osc_item_category() . ', ' . osc_highlight(strip_tags(osc_item_description()), 140) . '..., ' . osc_item_category() ;
+                            $text = osc_item_category() . ', ' . osc_highlight (osc_item_description(), 140) . '..., ' . osc_item_category() ;
                             break;
                     }
                 break;
                 case('page'):
-                    $text = osc_highlight(strip_tags(osc_static_page_text()), 140) ;
+                    $text = osc_highlight (osc_static_page_text(), 140) ;
                 break;
                 case('search'):
                     $result = '' ;
@@ -325,7 +353,7 @@
                     }
 
                     if( osc_has_items () ) {
-                        $result = osc_item_category() . ', ' . osc_highlight(strip_tags(osc_item_description()), 140) . '..., ' . osc_item_category() ;
+                        $result = osc_item_category() . ', ' . osc_highlight (osc_item_description(), 140) . '..., ' . osc_item_category() ;
                     }
 
                     osc_reset_items() ;
@@ -338,7 +366,7 @@
                     }
 
                     if(osc_has_latest_items()) {
-                        $result = osc_item_category() . ', ' . osc_highlight(strip_tags(osc_item_description()), 140) . '..., ' . osc_item_category() ;
+                        $result = osc_item_category() . ', ' . osc_highlight (osc_item_description(), 140) . '..., ' . osc_item_category() ;
                     }
 
                     osc_reset_items() ;
@@ -351,9 +379,9 @@
          }
      }
 
-     /**
-      * Extend Pagination Class
-      */
+
+//      * Extend Pagination Class
+//      
      class TwitterPagination extends Pagination
      {
         public function __construct($params = null) {
@@ -363,7 +391,7 @@
         public function get_links()
         {
             $pages = $this->get_pages();
-            $links = array();
+            $links = array('<ul class="pagination">') ;
 
             if(isset($pages['prev'])) {
                 $links[] = '<li class="' . $this->class_prev . '"><a href="' . str_replace('{PAGE}', $pages['prev'], str_replace(urlencode('{PAGE}'), $pages['prev'], $this->url)) . '">' . $this->text_prev . '</a></li>';
@@ -380,14 +408,14 @@
             if(isset($pages['next'])) {
                 $links[] = '<li class="' . $this->class_next . '"><a href="' . str_replace('{PAGE}', $pages['next'], str_replace(urlencode('{PAGE}'), $pages['next'], $this->url)) . '">' . $this->text_next . '</a></li>';
             }
-
             return $links;
+				 echo '</ul>' ;
+				
         }
      }
 
-    /**
-     * Helper to use twitter pagination in user items
-     */
+//     * Helper to use twitter pagination in user items
+//     
     function twitter_user_item_pagination() {
         $params = array('total'              => (int) View::newInstance()->_get('list_total_pages'),
                         'selected'           => (int) View::newInstance()->_get('list_page'),
@@ -396,8 +424,8 @@
                         'class_prev'         => 'prev',
                         'class_next'         => 'next',
                         'delimiter'          => '',
-                        'text_prev'          => sprintf(__('%s Previous', 'twitter'), '&larr;'),
-                        'text_next'          => sprintf(__('Next %s', 'twitter'), '&rarr;'),
+                        'text_prev'          => sprintf(__('%s Previous', 'twitter'), '&laquo;'),
+                        'text_next'          => sprintf(__('Next %s', 'twitter'), '&raquo;'),
                         'class_selected'     => 'active',
                         'class_non_selected' => '',
                         'force_limits'       => false,
@@ -406,9 +434,8 @@
         return $pagination->doPagination() ;
     }
 
-    /**
-     * Helper to use twitter pagination in item comments
-     */
+//     * Helper to use twitter pagination in item comments
+//     
     function twitter_comments_item_pagination() {
         $params = array('total'              => ceil( osc_item_total_comments()/osc_comments_per_page() ),
                         'selected'           => osc_item_comments_page(),
@@ -417,8 +444,8 @@
                         'class_prev'         => 'prev',
                         'class_next'         => 'next',
                         'delimiter'          => '',
-                        'text_prev'          => sprintf(__('%s Previous', 'twitter'), '&larr;'),
-                        'text_next'          => sprintf(__('Next %s', 'twitter'), '&rarr;'),
+                        'text_prev'          => sprintf(__('%s Previous', 'twitter'), '&laquo;'),
+                        'text_next'          => sprintf(__('Next %s', 'twitter'), '&raquo;'),
                         'class_selected'     => 'active',
                         'class_non_selected' => '',
                         'force_limits'       => false,
@@ -427,9 +454,8 @@
         return $pagination->doPagination() ;
     }
 
-    /**
-     * Helper to use twitter pagination in search results
-     */
+//     * Helper to use twitter pagination in search results
+    
     function twitter_search_pagination() {
         $params = array('total'              => osc_search_total_pages(),
                         'selected'           => osc_search_page(),
@@ -438,8 +464,8 @@
                         'class_prev'         => 'prev',
                         'class_next'         => 'next',
                         'delimiter'          => '',
-                        'text_prev'          => sprintf(__('%s Previous', 'twitter'), '&larr;'),
-                        'text_next'          => sprintf(__('Next %s', 'twitter'), '&rarr;'),
+                        'text_prev'          => sprintf(__('%s Previous', 'twitter'), '&laquo;'),
+                        'text_next'          => sprintf(__('Next %s', 'twitter'), '&raquo;'),
                         'class_selected'     => 'active',
                         'class_non_selected' => '',
                         'force_limits'       => false,
@@ -539,14 +565,14 @@
     function item_category_select($default_option) {
         $categories = Category::newInstance()->findRootCategoriesEnabled() ; ?>
         <?php if( count($categories) > 0 ) { ?>
-        <select class="category">
+        <select class="form-control category">
             <option><?php echo $default_option ; ?></option>
             <?php foreach($categories as $c) { ?>
             <option value="<?php echo $c['pk_i_id'] ; ?>"><?php echo $c['s_name'] ; ?></option>
             <?php } ?>
         </select>
         <?php } ?>
-        <select class="subcategory" name="catId" style="display:none"></select>
+        <select class="form-control subcategory" name="catId" style="display:none"></select>
         <?php
     }
 
@@ -563,16 +589,16 @@
             <?php $i = 0; ?>
             <?php foreach($locales as $l) { ?>
                 <div <?php if( $i == 0 ) { ?>class="active"<?php } ?> id="tab<?php echo $l['pk_c_code'] ; ?>">
-                    <div class="clearfix">
-                        <label><?php echo $title_txt ; ?></label>
-                        <div class="input">
-                            <input class="xxlarge" type="text" name="title[<?php echo $l['pk_c_code'] ; ?>]" value="<?php echo get_item_title($item, $l['pk_c_code']) ; ?>" />
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label pull-left"><?php echo $title_txt ; ?></label>
+                         <div class="col-sm-10">
+                            <input class="form-control" type="text" name="title[<?php echo $l['pk_c_code'] ; ?>]" value="<?php echo get_item_title($item, $l['pk_c_code']) ; ?>" />
                         </div>
                     </div>
-                    <div class="clearfix">
-                        <label><?php echo $description_txt ; ?></label>
-                        <div class="input">
-                            <textarea id="description[<?php echo $l['pk_c_code'] ; ?>]" name="description[<?php echo $l['pk_c_code'] ; ?>]" class="xxlarge" rows="9"><?php echo get_item_description($item, $l['pk_c_code']) ; ?></textarea>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label pull-left"><?php echo $description_txt ; ?></label>
+                         <div class="col-sm-10">
+                            <textarea id="description[<?php echo $l['pk_c_code'] ; ?>]" name="description[<?php echo $l['pk_c_code'] ; ?>]" class="form-control" rows="9"><?php echo get_item_description($item, $l['pk_c_code']) ; ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -584,16 +610,16 @@
     function item_title_description_box($title_txt, $description_txt, $locales) { ?>
         <?php $l = $locales[0] ; ?>
         <?php $item = (osc_item() != null) ? osc_item() : array() ; ?>
-        <div class="clearfix">
-            <label><?php echo $title_txt ; ?></label>
-            <div class="input">
-                <input class="xxlarge" type="text" name="title[<?php echo $l['pk_c_code'] ; ?>]" value="<?php echo get_item_title($item, $l['pk_c_code']) ; ?>" />
+        <div class="form-group">
+            <label class="col-sm-1 control-label pull-left"><?php echo $title_txt ; ?></label>
+             <div class="col-sm-10">
+                <input class="form-control" type="text" name="title[<?php echo $l['pk_c_code'] ; ?>]" value="<?php echo get_item_title($item, $l['pk_c_code']) ; ?>" />
             </div>
         </div>
-        <div class="clearfix">
-            <label><?php echo $description_txt ; ?></label>
-            <div class="input">
-                <textarea id="description[<?php echo $l['pk_c_code'] ; ?>]" name="description[<?php echo $l['pk_c_code'] ; ?>]" class="xxlarge" rows="9"><?php echo get_item_description($item, $l['pk_c_code']) ; ?></textarea>
+        <div class="form-group">
+            <label class="col-sm-1 control-label pull-left"><?php echo $description_txt ; ?></label>
+            <div class="col-sm-10">
+                <textarea id="description[<?php echo $l['pk_c_code'] ; ?>]" name="description[<?php echo $l['pk_c_code'] ; ?>]" class="form-control" rows="9"><?php echo get_item_description($item, $l['pk_c_code']) ; ?></textarea>
             </div>
         </div>
         <?php
@@ -679,7 +705,7 @@
 
     function item_price_input() { ?>
         <?php $item = (osc_item() != null) ? osc_item() : array() ; ?>
-        <input type="text" id="price" class="medium" name="price" value="<?php echo get_item_price($item) ; ?>">
+        <input type="text" id="price" class="form-control" name="price" value="<?php echo get_item_price($item) ; ?>">
         <?php
     }
 
@@ -711,7 +737,7 @@
         $item = (osc_item() != null) ? osc_item() : array() ;
         $aCurrencies = osc_get_currencies() ;
         $currencySelected = get_item_currency($item) ; ?>
-        <select class="medium" id="currency" name="currency">
+        <select class="form-control" id="currency" name="currency">
             <?php foreach($aCurrencies as $currency) { ?>
                 <option value="<?php echo $currency['pk_c_code'] ; ?>" <?php echo ($currencySelected == $currency['pk_c_code']) ? 'selected="selected"' : '' ?>><?php echo $currency['s_description'] ; ?></option>
             <?php } ?>
@@ -735,7 +761,7 @@
 
     function item_contact_name_input() { ?>
         <?php $item = (osc_item() != null) ? osc_item() : array() ; ?>
-        <input type="text" id="contactName" class="large" name="contactName" value="<?php echo get_item_contact_name($item) ; ?>">
+        <input type="text" id="contactName" class="form-control" name="contactName" value="<?php echo get_item_contact_name($item) ; ?>">
         <?php
     }
 
@@ -755,7 +781,7 @@
 
     function item_contact_mail_input() { ?>
         <?php $item = (osc_item() != null) ? osc_item() : array() ; ?>
-        <input type="text" id="contactEmail" class="large" name="contactEmail" value="<?php echo get_item_contact_mail($item) ; ?>">
+        <input type="email" id="contactEmail" class="form-control" name="contactEmail" value="<?php echo get_item_contact_mail($item) ; ?>">
         <?php
     }
 
@@ -803,23 +829,23 @@
 
         switch( count($aCountries) ) {
             case 0:     // no country, show input ?>
-                        <div class="clearfix">
-                            <label><?php echo $country_txt ; ?></label>
-                            <div class="input">
-                                <input class="country_name" id="country_name" type="text" name="country" value="<?php echo get_country_name($item) ; ?>" />
+                        <div class="input-group">
+                            <label class="col-sm-2 control-label"><?php echo $country_txt ; ?></label>
+                            <div class="col-sm-10">
+                                <input class="form-control country_name" id="country_name" type="text" name="country" value="<?php echo get_country_name($item) ; ?>" />
                             </div>
                         </div>
             <?php
             break;
             case 1:     // one country ?>
-                        <input class="country_id" id="country_id" type="hidden" name="countryId" value="<?php echo get_country_id($item) ; ?>" />
+                        <input class="form-control country_id" id="country_id" type="hidden" name="countryId" value="<?php echo get_country_id($item) ; ?>" />
             <?php
             break;
             default:    // more than one country ?>
-                        <div class="clearfix">
-                            <label><?php echo $country_txt ; ?></label>
-                            <div class="input">
-                                <select class="country_id" id="country_id" name="countryId">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><?php echo $country_txt ; ?></label>
+                            <div class="col-sm-10">
+                                <select class="form-control country_id" id="country_id" name="countryId">
                                     <option value=""><?php echo $country_select_txt ; ?></option>
                                     <?php foreach($aCountries as $country) { ?>
                                         <option value="<?php echo $country['pk_c_code'] ; ?>"><?php echo $country['s_name'] ; ?></option>
@@ -871,23 +897,23 @@
 
         switch( count($aRegions) ) {
             case 0:     // 0 regions ?>
-                        <div class="clearfix">
-                            <label><?php echo $region_txt ; ?></label>
-                            <div class="input">
-                                <input class="region_name" id="region_name" type="text" name="region" value="<?php echo get_region_name($item) ; ?>" />
+                        <div class="input-group">
+                            <label class="col-sm-2 control-label"><?php echo $region_txt ; ?></label>
+                            <div class="col-sm-10">
+                                <input class="form-control region_name" id="region_name" type="text" name="region" value="<?php echo get_region_name($item) ; ?>" />
                             </div>
                         </div>
             <?php
             break;
             case 1:     // only one region ?>
-                        <input class="region_id" id="region_id" type="hidden" name="regionId" value="<?php echo get_region_id($item) ; ?>" />
+                        <input class="form-control region_id" id="region_id" type="hidden" name="regionId" value="<?php echo get_region_id($item) ; ?>" />
             <?php
             break;
             default:    // more than one region ?>
-                        <div class="clearfix">
-                            <label><?php echo $region_txt ; ?></label>
-                            <div class="input">
-                                <select class="region_id" id="region_id" name="regionId">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><?php echo $region_txt ; ?></label>
+                            <div class="col-sm-10">
+                                <select class="form-control region_id" id="region_id" name="regionId">
                                     <option value=""><?php echo $region_select_txt ; ?></option>
                                     <?php foreach($aRegions as $region) { ?>
                                         <option value="<?php echo $region['pk_i_id'] ; ?>"><?php echo $region['s_name'] ; ?></option>
@@ -936,10 +962,10 @@
     function item_city_box($city_txt, $city_select_txt, $k = false) {
 
         if($k) { ?>
-        <div class="clearfix">
-                <label><?php echo $city_txt; ?></label>
-                <div class="input">
-                        <select class="city_id" id="city_id" name="cityId">
+        <div class="form-group">
+                <label class="col-sm-2 control-label"><?php echo $city_txt; ?></label>
+                <div class="col-sm-10">
+                        <select class="form-control city_id" id="city_id" name="cityId">
                                 <option value=""><?php echo $city_select_txt; ?></option>
                         </select>
                 </div>
@@ -953,23 +979,23 @@
 
         switch( count($aCities) ) {
             case 0:     // 0 regions ?>
-                        <div class="clearfix">
-                            <label><?php echo $city_txt ; ?></label>
-                            <div class="input">
-                                <input class="city_name" id="city_name" type="text" name="city" value="<?php echo get_city_name($item) ; ?>" />
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><?php echo $city_txt ; ?></label>
+                            <div class="col-sm-10">
+                                <input class="form-control city_name" id="city_name" type="text" name="city" value="<?php echo get_city_name($item) ; ?>" />
                             </div>
                         </div>
             <?php
             break;
             case 1:     // only one region ?>
-                        <input class="city_id" id="city_id" type="hidden" name="cityId" value="<?php echo get_city_id($item) ; ?>" />
+                        <input class="form-control city_id" id="city_id" type="hidden" name="cityId" value="<?php echo get_city_id($item) ; ?>" />
             <?php
             break;
             default:    // more than one region ?>
-                        <div class="clearfix">
-                            <label><?php echo $city_txt ; ?></label>
-                            <div class="input">
-                                <select class="city_id" id="city_id" name="cityId">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><?php echo $city_txt ; ?></label>
+                            <div class="col-sm-10">
+                                <select class="form-control city_id" id="city_id" name="cityId">
                                     <option value=""><?php echo $city_select_txt ; ?></option>
                                     <?php foreach($aCities as $city) { ?>
                                         <option value="<?php echo $city['pk_i_id'] ; ?>"><?php echo $city['s_name'] ; ?></option>
@@ -1012,7 +1038,7 @@
 
     function item_city_area() { ?>
         <?php $item = (osc_item() != null) ? osc_item() : array() ; ?>
-        <input type="text" id="cityArea" name="cityArea" value="<?php echo get_item_city_area($item) ; ?>" />
+        <input class="form-control" type="text" id="cityArea" name="cityArea" value="<?php echo get_item_city_area($item) ; ?>" />
         <?php
     }
 
@@ -1032,7 +1058,7 @@
 
     function item_address() { ?>
         <?php $item = (osc_item() != null) ? osc_item() : array() ; ?>
-        <input type="text" id="address" name="address" value="<?php echo get_item_address($item) ; ?>" />
+        <input class="form-control" type="text" id="address" name="address" value="<?php echo get_item_address($item) ; ?>" />
         <?php
     }
 
@@ -1049,144 +1075,4 @@
 
         return $address ;
     }
-
-    /* Breadcrumbs */
-    function twitter_breadcrumb($separator = '/') {
-        $breadcrumb = array() ;
-        $text       = '' ;
-        $location   = Rewrite::newInstance()->get_location() ;
-        $section    = Rewrite::newInstance()->get_section() ;
-        $separator  = '<span class="divider">' . trim($separator) . '</span>';
-        $page_title = '<li><a href="' . osc_base_url() .  '">' . osc_page_title() . '</a>' . $separator . '</li>';
-
-        switch ($location) {
-            case ('item'):
-                switch ($section) {
-                    case 'item_add':    break;
-                    default :           $aCategories = Category::newInstance()->toRootTree( (string) osc_item_category_id() );
-                                        $category    = '';
-                                        if(count($aCategories) == 0) {
-                                            break;
-                                        }
-
-                                        foreach ($aCategories as $aCategory) {
-                                            $list[] = '<li><a href="' . osc_item_category_url($aCategory['pk_i_id']) . '">' . $aCategory['s_name']. '</a>' . $separator . '</li>';
-                                        }
-                                        $category = implode('', $list) ;
-                                        break;
-                }
-
-                switch ($section) {
-                    case 'item_add':    $text = $page_title . '<li>' . __('Publish an item', 'twitter') . '</li>'; break;
-                    case 'item_edit':   $text = $page_title . '<li><a href="' . osc_item_url() . '">' . osc_item_title() . '</a>' . $separator .  '</li><li>' . __('Edit your item', 'twitter') . '</li>'; break;
-                    case 'send_friend': $text = $page_title . $category . '<li><a href="' . osc_item_url() . '">' . osc_item_title() . '</a>' . $separator .  '</li><li>' . __('Send to a friend', 'twitter') . '</li>'; break;
-                    case 'contact':     $text = $page_title . $category . '<li><a href="' . osc_item_url() . '">' . osc_item_title() . '</a>' . $separator .  '<li><li>' . __('Contact seller', 'twitter') . '</li>'; break;
-                    default:            $text = $page_title . $category . '<li>' . osc_item_title() . '</li>'; break;
-                }
-            break;
-            case('page'):
-                $text = $page_title . '<li>' . osc_static_page_title() . '</li>';
-            break;
-            case('search'):
-                $region     = Params::getParam('sRegion');
-                $city       = Params::getParam('sCity');
-                $pattern    = Params::getParam('sPattern');
-                $category   = osc_search_category_id();
-                $category   = ((count($category) == 1) ? $category[0] : '');
-
-                $b_show_all = ($pattern == '' && $category == '' && $region == '' && $city == '');
-                $b_category = ($category != '');
-                $b_pattern  = ($pattern != '');
-                $b_region   = ($region != '');
-                $b_city     = ($city != '');
-                $b_location = ($b_region || $b_city);
-
-                if($b_show_all) {
-                    $text = $page_title . '<li>' . __('Search', 'twitter') . '</li>' ;
-                    break;
-                }
-
-                // init
-                $result = $page_title ;
-
-                if($b_category) {
-                    $list        = array();
-                    $aCategories = Category::newInstance()->toRootTree($category);
-                    if(count($aCategories) > 0) {
-                        $deep = 1;
-                        foreach ($aCategories as $single) {
-                            $list[] = '<li><a href="' . osc_item_category_url($single['pk_i_id']) . '">' . $single['s_name']. '</a>' . $separator . '</li>';
-                            $deep++;
-                        }
-                        // remove last link
-                        if( !$b_pattern && !$b_location ) {
-                            $list[count($list) - 1] = preg_replace('|<li><a href.*?>(.*?)</a>.*?</li>|', '$01', $list[count($list) - 1]);
-                        }
-                        $result .= implode('', $list) ;
-                    }
-                }
-
-                if( $b_location ) {
-                    $list   = array();
-                    $params = array();
-                    if($b_category) $params['sCategory'] = $category;
-
-                    if($b_city) {
-                        $aCity = City::newInstance()->findByName($city);
-                        if( count($aCity) == 0 ) {
-                            $params['sCity'] = $city;
-                            $list[] = '<li><a href="' . osc_search_url($params) . '">' . $city . '</a>' . $separator . '</li>';
-                        } else {
-                            $aRegion = Region::newInstance()->findByPrimaryKey($aCity['fk_i_region_id']);
-
-                            $params['sRegion'] = $aRegion['s_name'];
-                            $list[] = '<li><a href="' . osc_search_url($params) . '">' . $aRegion['s_name'] . '</a>' . $separator . '</li>';
-
-                            $params['sCity'] = $aCity['s_name'];
-                            $list[] = '<li><a href="' . osc_search_url($params) . '">' . $aCity['s_name'] . '</a>' . $separator . '</li>';
-                        }
-
-                        if( !$b_pattern ) {
-                            $list[count($list) - 1] = preg_replace('|<li><a href.*?>(.*?)</a>.*?</li>|', '$01', $list[count($list) - 1]);
-                        }
-                        $result .= implode('', $list) ;
-                    } else if( $b_region ) {
-                        $params['sRegion'] = $region ;
-                        $list[]  = '<li><a href="' . osc_search_url($params) . '">' . $region . '</a>' . $separator . '</li>';
-
-                        if( !$b_pattern ) {
-                            $list[count($list) - 1] = preg_replace('|<li><a href.*?>(.*?)</a>.*?</li>|', '$01', $list[count($list) - 1]);
-                        }
-                        $result .= implode('', $list) ;
-                    }
-                }
-
-                if($b_pattern) {
-                    $result .= '<li>' . __('Search Results', 'twitter') . ': ' . $pattern  . '</li>' ;
-                }
-
-                // remove last separator
-                $result = preg_replace('|' . trim($separator) . '\s*$|', '', $result);
-                $text   = $result;
-            break;
-            case('login'):
-                switch ($section) {
-                    case('recover'): $text = $page_title . '<li>' . __('Recover your password', 'twitter') . '</li>';
-                    break;
-                    default:         $text = $page_title . '<li>' . __('Login', 'twitter') . '</li>';
-                }
-            break;
-            case('register'):
-                $text = $page_title . '<li>' . __('Create a new account', 'twitter') . '</li>';
-            break;
-            case('contact'):
-                $text = $page_title . '<li>' . __('Contact', 'twitter') . '</li>';
-            break;
-            default:
-            break;
-        }
-
-        return '<ul class="breadcrumb">' . $text . '</ul>';
-    }
-
 ?>

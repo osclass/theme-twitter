@@ -11,39 +11,30 @@
         <?php } ?>
     </head>
     <body>
-        <?php osc_current_web_theme_path('header.php') ; ?>
-        <div class="container margin-top-10">
-            <?php twitter_show_flash_message() ; ?>
-        </div>
-        <!-- content -->
-        <div class="container container-fluid search">
-            <?php echo twitter_breadcrumb('&raquo;') ; ?>
+	 <?php osc_current_web_theme_path('header.php') ; ?>
+    <?php twitter_show_flash_message() ; ?>
+        <div class="content">
             <!-- sidebar -->
-            <div class="sidebar well">
+            <div class="col-md-3 pull-9">
+            <div class="well well-sm">
                 <form action="<?php echo osc_base_url(true); ?>" method="get">
+                    <div class="input-group">
                     <input type="hidden" name="page" value="search" />
-                    <fieldset>
-                        <h4><?php _e('Your search', 'twitter') ; ?></h4>
-                        <div class="clearfix">
+                        <h5><?php _e('Your search', 'twitter') ; ?></h5>
                             <input type="text" name="sPattern" id="query" value="<?php echo osc_search_pattern() ; ?>" />
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <h4><?php _e('City', 'twitter') ; ?></h4>
-                        <div class="clearfix">
+                        <h5><?php _e('City', 'twitter') ; ?></h5>
                             <input type="text" name="sCity" id="sCity" value="<?php echo osc_search_city() ; ?>" />
                         </div>
-                    </fieldset>
                     <?php
                         View::newInstance()->_erase('subcategories') ;
                         View::newInstance()->_erase('categories') ;
                     ?>
                     <?php if ( osc_count_categories() ) { ?>
-                    <fieldset>
-                        <h4><?php _e('Categories', 'twitter') ; ?></h4>
-                        <div class="clearfix">
-                            <ul class="inputs-list">
-                            <?php // RESET CATEGORIES IF WE USED THEN IN THE HEADER ?>
+                       <div class="input-group">
+                        <h5><?php _e('Categories', 'twitter') ; ?></h5>
+                        <div class="checkbox">
+                            <ul class="list-unstyled">
+                            <?php // RESET CATEGORIES IF WE USED THEM IN THE HEADER ?>
                             <?php osc_goto_first_category() ; ?>
                                 <?php while( osc_has_categories() ) { ?>
                                 <li>
@@ -67,7 +58,7 @@
                                 <?php } ?>
                             </ul>
                         </div>
-                    </fieldset>
+                      </div>
                     <?php } ?>
                     <?php
                         if(osc_search_category_id()) {
@@ -76,16 +67,15 @@
                             osc_run_hook('search_form') ;
                         }
                     ?>
-                    <div class="clearfix">
-                        <button class="btn" type="submit"><?php _e('Apply', 'twitter') ; ?></button>
-                    </div>
+                        <button class="btn btn-info" type="submit"><?php _e('Apply', 'twitter') ; ?></button>
                 </form>
                 <?php osc_alert_form() ; ?>
             </div>
-            <!-- sidebar end -->
-            <div class="content">
-                <?php require('search_list.php') ; ?>
             </div>
+            <!-- sidebar end -->
+            <div class="col-md-9">
+                <?php require('search_list.php') ; ?>
+            </div>  
         </div>
         <?php osc_current_web_theme_path('footer.php') ; ?>
     </body>

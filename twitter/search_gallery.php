@@ -1,4 +1,4 @@
-    
+<!--FILE NOT USED    -->
 <?php if( osc_count_items() == 0) { ?>
     <div class="search-header span11 columns">
         <h1><?php _e('Search results', 'twitter') ; ?></h1>

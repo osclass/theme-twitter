@@ -7,26 +7,23 @@
     </head>
     <body>
         <?php osc_current_web_theme_path('header.php') ; ?>
-        <div class="container user">
+		  <?php twitter_show_flash_message() ; ?>
+        <div class="content">
             <div class="row">
-                <div class="span16 columns">
+                <div class="col-md-3">
                     <?php twitter_user_menu() ; ?>
-                    <?php twitter_show_flash_message() ; ?>
+                  </div>  
                     <h2><?php _e('Your items', 'twitter') ; ?></h2>
-                </div>
-            </div>
+            
             <?php if(osc_count_items() == 0) { ?>
-            <div class="row">
-                <div class="span16 columns">
+                <div class="col-md-9">
                     <h4><?php _e("You don't have any items yet", 'twitter') ; ?></h4>
-                </div>
-            </div>
+                    </div>
             <?php } else { ?>
                 <?php while( osc_has_items() ) { ?>
-                <div class="row">
-                    <div class="span16 columns">
+                <div class="col-md-9 col-md-offset-3">
                         <h4><a href="<?php echo osc_item_url(); ?>"><?php echo osc_item_title(); ?></a></h4>
-                        <p class="gray"><?php printf(__('<strong>Publish date</strong>: %s', 'twitter'), osc_format_date( osc_item_pub_date() ) ) ; ?></p>
+                        <p class="text-muted"><?php printf(__('<strong>Publish date</strong>: %s', 'twitter'), osc_format_date( osc_item_pub_date() ) ) ; ?></p>
                         <?php
                             $location = array() ;
                             if( osc_item_country() != '' ) {
@@ -40,9 +37,9 @@
                             }
                             if( count($location) > 0) {
                         ?>
-                        <p class="gray"><?php echo implode(' &middot; ', $location) ; ?></p>
+                        <p class="text-muted"><?php echo implode(' &middot; ', $location) ; ?></p>
                         <?php } ?>
-                        <p><?php echo osc_highlight( strip_tags( osc_item_description() ) ) ; ?></p>
+                        <p><?php echo osc_highlight( osc_item_description() ) ; ?></p>
                         <p>
                             <strong><a href="<?php echo osc_item_edit_url(); ?>"><?php _e('Edit', 'twitter') ; ?></a></strong>
                             &middot;
@@ -53,17 +50,14 @@
                             <?php } ?>
                         </p>
                     </div>
-                </div>
-                <?php } ?>
-                <?php if ( osc_list_total_pages() > 0 ) { ?>
-                <div class="pagination">
-                    <ul>
-                        <?php echo twitter_user_item_pagination() ; ?>
-                    </ul>
-                </div>
                 <?php } ?>
             <?php } ?>
         </div>
-        <?php osc_current_web_theme_path('footer.php') ; ?>
+       </div>
+       <nav class="navbar navbar-static-bottom">
+        <div class="container">
+         <?php osc_current_web_theme_path('footer.php') ; ?>
+        </div>
+      </nav>
     </body>
 </html>
