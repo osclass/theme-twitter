@@ -52,7 +52,7 @@
                 </p>
                 <?php } else { ?>
                     <?php while ( osc_has_latest_items() ) { ?>
-                    <div class="line">
+                    <div class="<?php osc_run_hook("highlight_class"); ?> line">
                         <div class="photo">
                             <?php if( osc_count_item_resources() ) { ?>
                             <a href="<?php echo osc_item_url() ; ?>">
