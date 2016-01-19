@@ -70,7 +70,7 @@
     <?php } ?>
 <?php } ?>
     <?php while ( osc_has_items() ) { ?>
-    <div class="line span11 columns">
+    <div class="<?php osc_run_hook("highlight_class"); ?>line span11 columns">
         <div class="photo">
             <?php if( osc_count_item_resources() ) { ?>
             <a href="<?php echo osc_item_url() ; ?>">
