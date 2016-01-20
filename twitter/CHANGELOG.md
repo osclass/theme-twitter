@@ -1,5 +1,9 @@
 #CHANGELOG
 
+### v1.3.4 - 20/01/2015
+
+* Added support for highlight listings
+
 ### v1.3.3 - 03/10/2013
 
 * Added the following languages:

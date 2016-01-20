@@ -14,7 +14,7 @@ Theme update URI: twitter
     function twitter_theme_info() {
         return array(
              'name'        => 'Twitter bootstrap'
-            ,'version'     => '1.3.2'
+            ,'version'     => '1.3.3'
             ,'description' => 'Osclass theme using twitter bootstrap 1.4'
             ,'author_name' => 'Osclass team'
             ,'author_url'  => 'http://osclass.org/'
